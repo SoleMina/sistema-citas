@@ -1,0 +1,29 @@
+<mat-toolbar>
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    (click)="drawerToggle.emit()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Clinica App</span>
+  <span class="example-spacer"></span>
+  <span> test</span>
+  <button
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with home icon"
+    routerLink="/dashboard/students"
+  >
+    <mat-icon matListItemIcon>home</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with person icon"
+    routerLink="/dashboard/students-register"
+  >
+    <mat-icon matListItemIcon>person</mat-icon>
+  </button>
+</mat-toolbar>

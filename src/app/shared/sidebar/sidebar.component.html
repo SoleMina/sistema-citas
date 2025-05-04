@@ -1,0 +1,26 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer [opened]="true" #drawer class="example-sidenav" mode="side">
+    <mat-nav-list>
+      @for (item of navItems; track item) {
+      <mat-list-item
+        mat-list-item
+        [routerLink]="item.link"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [activated]="rla.isActive"
+        (click)="item.name === 'Logout' && logout()"
+      >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <div matListItemTitle>{{ item.name }}</div>
+      </mat-list-item>
+      }
+    </mat-nav-list>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <app-toolbar (drawerToggle)="drawer.toggle()" />
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</mat-drawer-container>

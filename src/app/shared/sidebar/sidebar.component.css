@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.example-container {
+  height: 100%;
+}
+
+.example-sidenav {
+  height: 100%;
+  background: #f4f4f4;
+}
+
+.example-sidenav-content {
+  height: 100%;
+}
