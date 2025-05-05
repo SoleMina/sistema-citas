@@ -1,4 +1,4 @@
-<mat-drawer-container class="example-container" autosize>
+<mat-drawer-container class="example-container" autosize *ngIf="!isLoginPage()">
   <mat-drawer [opened]="true" #drawer class="example-sidenav" mode="side">
     <mat-nav-list>
       @for (item of navItems; track item) {
@@ -24,3 +24,8 @@
     </main>
   </div>
 </mat-drawer-container>
+
+<!-- Render login full screen -->
+<div class="container" *ngIf="isLoginPage()">
+  <router-outlet></router-outlet>
+</div>

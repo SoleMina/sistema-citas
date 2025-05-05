@@ -1,0 +1,54 @@
+<div class="login">
+  <div class="container">
+    <div class="form-login">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="text-center">
+          <h2 appHighlight>Login</h2>
+          <img src="user.png" alt="User logo" width="100" />
+        </div>
+
+        <div class="group-field text-center">
+          <mat-form-field appearance="outline">
+            <mat-label>Correo</mat-label>
+            <input
+              formControlName="correo"
+              matInput
+              aria-describedby="usernameHelp"
+              [ngClass]="{
+                'is-valid': usernameControl && usernameControlIsValid,
+                'is-invalid': usernameControlIsInvalid
+              }"
+            />
+          </mat-form-field>
+          <div
+            id="usernameHelp"
+            *ngIf="usernameControl?.touched && usernameControl?.invalid"
+            class="form-text text-danger mb-3"
+          >
+            @if (usernameControl?.hasError('required')) { Este campo es
+            requerido } @else if (usernameControl?.hasError('email')) { Este no
+            es un correo válido } @else { }
+          </div>
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" matInput type="password" />
+          </mat-form-field>
+          <div
+            id="passwordHelp"
+            *ngIf="usernameControl?.touched && usernameControl?.invalid"
+            class="form-text text-danger"
+          >
+            @if (passwordControl?.hasError('required')) { Este campo es
+            requerido } @else if (passwordControl?.hasError('password')) {
+            Password incorrecto } @else { }
+          </div>
+          <div class="col-12">
+            <button routerLink="/citas" mat-flat-button type="submit">
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

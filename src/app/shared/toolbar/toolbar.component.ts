@@ -14,6 +14,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { map, Observable } from 'rxjs';
+import { AuthService } from '../../core/services/auth.service';
+import { Usuario } from '../../core/models/usuario';
 
 @Component({
   selector: 'app-toolbar',
@@ -39,4 +42,14 @@ import { CommonModule } from '@angular/common';
 })
 export class ToolbarComponent {
   @Output() drawerToggle = new EventEmitter();
+  emailAddress: string | null = null;
+
+  constructor(private authService: AuthService) {
+    this.emailAddress = this.authService.currentUser?.correo || null;
+    console.log(this.emailAddress, 'email en toolbar');
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
 }
