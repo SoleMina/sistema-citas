@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -63,12 +64,10 @@ export class SidebarComponent {
     },
   ];
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private authService: AuthService) {}
 
   logout(): void {
-    console.log('Logging out...');
-    localStorage.removeItem('token');
-    this.router.navigate(['login']);
+    this.authService.logout();
   }
 
   isLoginPage(): boolean {

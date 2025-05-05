@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -44,14 +44,16 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  isAuthenticated(): boolean {
-    const token = localStorage.getItem('access_token');
-    const user = localStorage.getItem('auth_user');
-    if (token && user) {
-      this.authUserSubject.next(JSON.parse(user));
-      return true;
+  isAuthenticated(): Observable<boolean> {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('access_token');
+      const user = localStorage.getItem('auth_user');
+      if (token && user) {
+        this.authUserSubject.next(JSON.parse(user));
+        return of(true);
+      }
     }
-    return false;
+    return of(false);
   }
 
   get currentUser(): Usuario | null {
