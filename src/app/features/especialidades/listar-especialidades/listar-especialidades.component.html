@@ -41,15 +41,15 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
           <td mat-cell *matCellDef="let row">
-            <a [routerLink]="['', row.id_espe]">
+            <!-- <a [routerLink]="['', row.id_espe]">
               <mat-icon>visibility</mat-icon>
-            </a>
-            <a (click)="edit.emit(row)">
+            </a> -->
+            <button mat-icon-button (click)="editEspecialidad(row)">
               <mat-icon>edit</mat-icon>
-            </a>
-            <a (click)="delete.emit(row.id_espe)">
+            </button>
+            <button mat-icon-button (click)="deleteEspecialidad(row.id_espe)">
               <mat-icon>delete</mat-icon>
-            </a>
+            </button>
           </td>
         </ng-container>
 

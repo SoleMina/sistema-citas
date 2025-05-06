@@ -1,4 +1,10 @@
-import { Component, inject, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -47,7 +53,8 @@ export class ListarEspecialidadesComponent {
 
   constructor(
     private especialidadService: EspecialidadesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -95,7 +102,43 @@ export class ListarEspecialidadesComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Especialidad registrada:', result);
+        this.loadEspecialidades();
+      }
+    });
+  }
+  deleteEspecialidad(id: number) {
+    this.especialidadService.eliminarPorId(id).subscribe({
+      next: () => {
+        this.loadEspecialidades();
+      },
+      error: (err) => {
+        console.error('Error al eliminar especialidad:', err);
+      },
+    });
+  }
+
+  loadEspecialidades(): void {
+    this.especialidadService.listarEspecialidades().subscribe({
+      next: (data) => {
+        this.especialidades = data;
+        this.dataSource.data = [...this.especialidades];
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al cargar especialidades:', err);
+      },
+    });
+  }
+
+  editEspecialidad(especialidad: Especialidad) {
+    const dialogRef = this.dialog.open(RegistrarEspecialidadComponent, {
+      data: especialidad,
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadEspecialidades();
       }
     });
   }

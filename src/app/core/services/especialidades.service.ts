@@ -21,16 +21,19 @@ export class EspecialidadesService {
       withCredentials: true,
     });
   }
-  // public buscarPorId(id: string): Observable<Especialidad> {
-  //   return this.http.get<Especialidad>(this.urlBase + `/${id}`);
-  // }
-  // public actualizarEspecialidad(
-  //   id: number,
-  //   especialidad: Especialidad
-  // ): Observable<any> {
-  //   return this.http.put(this.urlBase + `/${id}`, especialidad);
-  // }
-  // public eliminarPorId(id: string): Observable<Especialidad> {
-  //   return this.http.delete<any>(this.urlBase + `/${id}`);
-  // }
+  public buscarPorId(id: string): Observable<Especialidad> {
+    return this.http.get<Especialidad>(this.urlBase + `/${id}`);
+  }
+
+  public eliminarPorId(id: number): Observable<Especialidad> {
+    return this.http.delete<any>(this.urlBase + `/${id}`, {
+      withCredentials: true,
+    });
+  }
+  public actualizarEspecialidad(
+    id: number,
+    especialidad: Especialidad
+  ): Observable<any> {
+    return this.http.put(this.urlBase + `/${id}`, especialidad);
+  }
 }

@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,11 +34,18 @@ export class RegistrarEspecialidadComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private especialidadService: EspecialidadesService
+    private especialidadService: EspecialidadesService,
+    private dialogRef: MatDialogRef<RegistrarEspecialidadComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Especialidad
   ) {
     this.especialidadForm = this.fb.group({
       nom_espe: [null, [Validators.required]],
     });
+    if (data) {
+      this.especialidadForm.patchValue({
+        nom_espe: data.nom_espe,
+      });
+    }
   }
 
   get especialidadControl() {
@@ -54,18 +65,23 @@ export class RegistrarEspecialidadComponent {
   }
 
   onSubmit() {
-    const formDataLogin = this.especialidadForm.value;
-    console.log(formDataLogin, 'formDataLogin');
+    const formData = this.especialidadForm.value;
+    console.log(formData, 'formDataLogin');
     if (this.especialidadForm.invalid) {
       this.especialidadForm.markAllAsTouched();
       return;
-    } else {
+    }
+
+    if (this.data?.id_espe) {
       this.especialidadService
-        .registrarEspecialidad(formDataLogin)
-        .subscribe((data) => {
-          this.router.navigate(['/especialidades']);
+        .actualizarEspecialidad(this.data.id_espe, formData)
+        .subscribe(() => {
+          this.dialogRef.close(true);
         });
-      this.especialidadForm.reset();
+    } else {
+      this.especialidadService.registrarEspecialidad(formData).subscribe(() => {
+        this.dialogRef.close(true);
+      });
     }
   }
 }
