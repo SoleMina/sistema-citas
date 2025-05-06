@@ -4,6 +4,7 @@ import { ListarUsuariosComponent } from './features/usuarios/componentes/listar-
 import { LoginComponent } from './features/auth/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { ListarMedicosComponent } from './features/medicos/listar-medicos/listar-medicos.component';
+import { ListarEspecialidadesComponent } from './features/especialidades/listar-especialidades/listar-especialidades.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,11 @@ export const routes: Routes = [
   {
     path: 'medicos',
     component: ListarMedicosComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'especialidades',
+    component: ListarEspecialidadesComponent,
     canActivate: [authGuard],
   },
   {

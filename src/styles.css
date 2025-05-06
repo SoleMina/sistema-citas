@@ -14,3 +14,18 @@ body {
 .text-danger {
   color: #dc3545;
 }
+.mt-10 {
+  margin-top: 10px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.p-10 {
+  padding: 10px;
+}

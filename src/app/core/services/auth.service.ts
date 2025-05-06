@@ -15,7 +15,14 @@ export class AuthService {
 
   private urlBase = 'http://localhost:8080/api/usuarios';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('auth_user');
+      if (user) {
+        this.authUserSubject.next(JSON.parse(user));
+      }
+    }
+  }
 
   login(payload: LoginPayload): void {
     this.http.post<Usuario>(`${this.urlBase}/login`, payload).subscribe({

@@ -1,0 +1,49 @@
+<mat-dialog-content>
+  <div class="especialidad">
+    <div class="form-especialidad">
+      <form [formGroup]="especialidadForm" (ngSubmit)="onSubmit()">
+        <div class="text-center mb-10">
+          <h2 appHighlight>Registrar Especialidad</h2>
+          <img src="user.png" alt="User logo" width="100" />
+        </div>
+
+        <div class="group-field text-center">
+          <mat-form-field appearance="outline">
+            <mat-label>Especialidad</mat-label>
+            <input
+              formControlName="nom_espe"
+              matInput
+              aria-describedby="especialidadHelp"
+              [ngClass]="{
+                'is-valid': especialidadControl && especialidadControlIsValid,
+                'is-invalid': especialidadControlIsInvalid
+              }"
+            />
+          </mat-form-field>
+          <div
+            id="especialidadHelp"
+            *ngIf="especialidadControl?.touched && especialidadControl?.invalid"
+            class="form-text text-danger mb-3"
+          >
+            @if (especialidadControl?.hasError('required')) { Este campo es
+            requerido } @else if (especialidadControl?.hasError('nom_espe')) {
+            Este no es un correo válido } @else { }
+          </div>
+          <div class="col-12">
+            <button
+              routerLink="/citas"
+              mat-flat-button
+              type="submit"
+              class="mb-10"
+            >
+              Registrar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>
