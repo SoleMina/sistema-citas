@@ -1,1 +1,80 @@
-<p>registrar-citas works!</p>
+<mat-dialog-content>
+  <div class="citas">
+    <div class="form-citas">
+      <form [formGroup]="citasForm" (ngSubmit)="onSubmit()">
+        <div class="text-center mb-10">
+          <h2 appHighlight>
+            {{ data?.id_cita ? "Editar" : "Registrar" }} Cita
+          </h2>
+        </div>
+
+        <div class="group-field text-center">
+          <mat-form-field appearance="outline">
+            <mat-label>Id Medico</mat-label>
+            <input
+              formControlName="id_med"
+              matInput
+              aria-describedby="idmedHelp"
+              [ngClass]="{
+                'is-valid': idmedControl && idmedControlIsValid,
+                'is-invalid': idmedControlIsInvalid
+              }"
+            />
+          </mat-form-field>
+          <div
+            id="idmedHelp"
+            *ngIf="idmedControl?.touched && idmedControl?.invalid"
+            class="form-text text-danger mb-3"
+          >
+            @if (idmedControl?.hasError('required')) { Este campo es requerido }
+            @else if (idmedControl?.hasError('nom_espe')) { Este no es un correo
+            válido } @else { }
+          </div>
+          <!-- Fecha de cita -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input
+              matInput
+              formControlName="fecha_cita"
+              [matDatepickerFilter]="myFilter"
+              [matDatepicker]="picker"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Hora de cita -->
+          <mat-form-field appearance="fill">
+            <mat-label>Hora</mat-label>
+            <mat-select formControlName="hora_cita">
+              <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
+                {{ hora }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado_cita">
+              <mat-option value="pendiente">PENDIENTE</mat-option>
+              <mat-option value="confirmado">CONFIRMADO</mat-option>
+              <mat-option value="cancelado">CANCELADO</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="col-12">
+            <button mat-flat-button type="submit" class="mb-10">
+              {{ data?.id_cita ? "Editar" : "Registrar" }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

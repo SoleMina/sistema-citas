@@ -60,11 +60,7 @@ export class ListarEspecialidadesComponent {
   }
 
   ngOnInit(): void {
-    this.especialidadService.listarEspecialidades().subscribe((data) => {
-      this.especialidades = data;
-      this.dataSource.data = this.especialidades;
-    });
-    console.log(this.dataSource.data, 'especialidades');
+    this.loadEspecialidades();
   }
 
   ngOnChanges() {

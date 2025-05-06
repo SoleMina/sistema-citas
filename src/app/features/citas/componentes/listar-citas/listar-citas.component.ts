@@ -1,4 +1,10 @@
-import { Component, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,6 +15,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RegistrarCitasComponent } from '../registrar-citas/registrar-citas.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { Cita } from '../../../../core/models/cita';
+import { CitasService } from '../../../../core/services/citas.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-listar-citas',
@@ -18,21 +30,23 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './listar-citas.component.html',
   styleUrl: './listar-citas.component.css',
 })
 export class ListarCitasComponent {
-  @Input() citas: any[] = [];
-  @Output() edit: EventEmitter<any> = new EventEmitter<any>();
+  title: string = 'Listar Citas';
+  citas: Cita[] = [];
 
   displayedColumns: string[] = [
     'id',
-    'nombre',
-    'email',
-    'telefono',
-    'role',
-    'nacimiento',
+    'medico',
+    'paciente',
+    'fecha',
+    'hora',
+    'estado',
     'actions',
   ];
   dataSource: MatTableDataSource<any>;
@@ -40,8 +54,28 @@ export class ListarCitasComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  constructor(
+    private dialog: MatDialog,
+    private citasService: CitasService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     this.dataSource = new MatTableDataSource();
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(RegistrarCitasComponent, {
+      width: '500px',
+      height: '500px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadCitas();
   }
 
   ngOnChanges() {
@@ -67,4 +101,26 @@ export class ListarCitasComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  loadCitas(): void {
+    this.citasService.listarCitas().subscribe({
+      next: (data) => {
+        this.citas = data;
+        this.dataSource.data = [...this.citas];
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al cargar citas:', err);
+      },
+    });
+  }
+  deleteCita(id: number) {
+    this.citasService.eliminarPorId(id).subscribe({
+      next: () => {
+        this.loadCitas();
+      },
+    });
+  }
+
+  editCita(cita: Cita) {}
 }
