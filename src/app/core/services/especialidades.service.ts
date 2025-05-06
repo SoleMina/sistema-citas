@@ -34,6 +34,8 @@ export class EspecialidadesService {
     id: number,
     especialidad: Especialidad
   ): Observable<any> {
-    return this.http.put(this.urlBase + `/${id}`, especialidad);
+    return this.http.put(this.urlBase + `/${id}`, especialidad, {
+      withCredentials: true,
+    });
   }
 }

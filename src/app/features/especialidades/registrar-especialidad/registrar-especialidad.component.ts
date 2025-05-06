@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Route, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Especialidad } from '../../../core/models/especialidad';
 import { EspecialidadesService } from '../../../core/services/especialidades.service';
@@ -33,7 +32,6 @@ export class RegistrarEspecialidadComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private especialidadService: EspecialidadesService,
     private dialogRef: MatDialogRef<RegistrarEspecialidadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Especialidad

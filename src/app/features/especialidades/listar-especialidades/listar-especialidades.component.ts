@@ -97,7 +97,6 @@ export class ListarEspecialidadesComponent {
       width: '500px',
       height: '420px',
       disableClose: true,
-      data: {},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -134,6 +133,7 @@ export class ListarEspecialidadesComponent {
     const dialogRef = this.dialog.open(RegistrarEspecialidadComponent, {
       data: especialidad,
       disableClose: true,
+      width: '500px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

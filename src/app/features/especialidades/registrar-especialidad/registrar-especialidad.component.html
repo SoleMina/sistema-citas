@@ -3,7 +3,9 @@
     <div class="form-especialidad">
       <form [formGroup]="especialidadForm" (ngSubmit)="onSubmit()">
         <div class="text-center mb-10">
-          <h2 appHighlight>Registrar Especialidad</h2>
+          <h2 appHighlight>
+            {{ data?.id_espe ? "Editar" : "Registrar" }} Especialidad
+          </h2>
           <img src="user.png" alt="User logo" width="100" />
         </div>
 
@@ -31,7 +33,7 @@
           </div>
           <div class="col-12">
             <button mat-flat-button type="submit" class="mb-10">
-              Registrar
+              {{ data?.id_espe ? "Editar" : "Registrar" }}
             </button>
           </div>
         </div>
