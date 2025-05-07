@@ -29,7 +29,7 @@ export class SidebarComponent {
   navItems: any[] = [
     {
       name: 'Home',
-      link: 'students',
+      link: '',
       icon: 'home',
     },
     {

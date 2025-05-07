@@ -7,6 +7,7 @@ import { ListarMedicosComponent } from './features/medicos/listar-medicos/listar
 import { ListarEspecialidadesComponent } from './features/especialidades/listar-especialidades/listar-especialidades.component';
 import { DetailsComponent } from './features/usuarios/componentes/details/details.component';
 import { DetailsMedicosComponent } from './features/medicos/details-medicos/details-medicos.component';
+import { HomeComponent } from './features/home/home.component';
 
 export const routes: Routes = [
   {
@@ -15,7 +16,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: ListarCitasComponent,
+    component: HomeComponent,
     canActivate: [authGuard],
   },
   {
