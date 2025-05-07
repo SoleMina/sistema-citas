@@ -24,6 +24,7 @@ import { CitasService } from '../../../../core/services/citas.service';
 import { Cita } from '../../../../core/models/cita';
 import { CommonModule, formatDate } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
+import { UsuariosService } from '../../../../core/services/usuarios.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -61,7 +62,11 @@ export const MY_DATE_FORMATS = {
 export class RegistrarCitasComponent {
   citasForm: FormGroup;
   currentUser: number | null = null;
+  medicosList: any[] = [];
+
   horasDisponibles: string[] = [];
+  estadoOptions: string[] = ['PENDIENTE', 'CONFIRMADA', 'CANCELADA'];
+
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     return day !== 0 && day !== 6;
@@ -70,6 +75,7 @@ export class RegistrarCitasComponent {
     private fb: FormBuilder,
     private citasService: CitasService,
     private authService: AuthService,
+    private usuariosService: UsuariosService,
     private dialogRef: MatDialogRef<RegistrarCitasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Cita
   ) {
@@ -79,16 +85,32 @@ export class RegistrarCitasComponent {
       id_med: [null, [Validators.required]],
       fecha_cita: [null, [Validators.required]],
       hora_cita: [null, [Validators.required]],
+      estado_cita: ['PENDIENTE', [Validators.required]],
     });
-    if (data) {
+    if (data && data.id_cita) {
+      console.log('DATA RECIBIDA:', data);
+
+      const estadoNormalizado = data?.estado_cita?.toUpperCase() || 'PENDIENTE';
+
       this.citasForm.patchValue({
         id_med: data.id_med,
         fecha_cita: data.fecha_cita,
         hora_cita: data.hora_cita,
         id_usua: data.id_usua,
-        estado_cita: data.estado_cita,
+        estado_cita: estadoNormalizado,
+      });
+    } else {
+      this.citasForm.patchValue({
+        estado_cita: 'PENDIENTE',
       });
     }
+
+    this.usuariosService.listarUsuario().subscribe((data) => {
+      this.medicosList = data.filter(
+        (usuario) => usuario.rol_usua === 'MEDICO'
+      );
+    });
+    console.log(this.medicosList, 'medicos list');
   }
 
   ngOnInit() {
@@ -122,7 +144,6 @@ export class RegistrarCitasComponent {
   onSubmit() {
     if (this.citasForm.invalid) {
       console.log(this.citasForm.value, 'form');
-      console.log('invalid citas');
       this.citasForm.markAllAsTouched();
       return;
     }
@@ -137,13 +158,20 @@ export class RegistrarCitasComponent {
       fecha_cita: fechaFormateada,
       hora_cita: horaConSegundos,
       id_usua: this.currentUser,
-      estado_cita: 'PENDIENTE',
     };
 
     console.log(formData);
 
-    this.citasService.registrarCita(formData).subscribe(() => {
-      this.dialogRef.close(true);
-    });
+    if (this.data?.id_cita) {
+      this.citasService
+        .actualizarCita(this.data.id_cita, formData)
+        .subscribe(() => {
+          this.dialogRef.close(true);
+        });
+    } else {
+      this.citasService.registrarCita(formData).subscribe(() => {
+        this.dialogRef.close(true);
+      });
+    }
   }
 }

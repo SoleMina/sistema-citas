@@ -33,11 +33,6 @@ export class SidebarComponent {
       icon: 'home',
     },
     {
-      name: 'Login',
-      link: 'login',
-      icon: 'person',
-    },
-    {
       name: 'Users',
       link: 'usuarios',
       icon: 'manage_accounts',

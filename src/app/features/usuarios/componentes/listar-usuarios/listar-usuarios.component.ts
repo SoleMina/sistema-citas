@@ -1,6 +1,7 @@
 import { Component, Input, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +24,7 @@ import { RouterModule } from '@angular/router';
     MatInputModule,
     MatTableModule,
     MatIconModule,
+    MatButtonModule,
   ],
   templateUrl: './listar-usuarios.component.html',
   styleUrl: './listar-usuarios.component.css',

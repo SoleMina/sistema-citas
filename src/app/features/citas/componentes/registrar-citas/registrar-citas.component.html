@@ -30,6 +30,18 @@
             @else if (idmedControl?.hasError('nom_espe')) { Este no es un correo
             válido } @else { }
           </div>
+
+          <!-- Select medico -->
+          <!-- <mat-form-field appearance="outline">
+            <mat-select disableRipple formControlName="id_med">
+              <mat-option
+                *ngFor="let medico of medicosList"
+                [value]="medico.id_med"
+              >
+                {{ medico.nom_usua }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
           <!-- Fecha de cita -->
           <mat-form-field class="example-full-width">
             <mat-label>Choose a date</mat-label>
@@ -57,14 +69,14 @@
             </mat-select>
           </mat-form-field>
 
-          <!-- <mat-form-field>
+          <mat-form-field appearance="fill" *ngIf="data?.id_cita">
             <mat-label>Estado</mat-label>
             <mat-select formControlName="estado_cita">
-              <mat-option value="PENDIENTE">PENDIENTE</mat-option>
-              <mat-option value="CONFIRMADO">CONFIRMADO</mat-option>
-              <mat-option value="CANCELADO">CANCELADO</mat-option>
+              <mat-option *ngFor="let estado of estadoOptions" [value]="estado">
+                {{ estado }}
+              </mat-option>
             </mat-select>
-          </mat-form-field> -->
+          </mat-form-field>
           <div class="col-12">
             <button mat-flat-button type="submit" class="mb-10">
               {{ data?.id_cita ? "Editar" : "Registrar" }}

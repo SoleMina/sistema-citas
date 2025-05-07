@@ -29,7 +29,7 @@ export class CitasService {
     });
   }
 
-  public actualizarCita(id: number, cita: Cita): Observable<any> {
+  actualizarCita(id: number, cita: Cita): Observable<any> {
     return this.http.put(this.urlBase + `/${id}`, cita, {
       withCredentials: true,
     });

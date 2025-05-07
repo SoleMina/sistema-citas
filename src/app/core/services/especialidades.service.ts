@@ -21,16 +21,16 @@ export class EspecialidadesService {
       withCredentials: true,
     });
   }
-  public buscarPorId(id: string): Observable<Especialidad> {
+  buscarPorId(id: string): Observable<Especialidad> {
     return this.http.get<Especialidad>(this.urlBase + `/${id}`);
   }
 
-  public eliminarPorId(id: number): Observable<Especialidad> {
+  eliminarPorId(id: number): Observable<Especialidad> {
     return this.http.delete<any>(this.urlBase + `/${id}`, {
       withCredentials: true,
     });
   }
-  public actualizarEspecialidad(
+  actualizarEspecialidad(
     id: number,
     especialidad: Especialidad
   ): Observable<any> {

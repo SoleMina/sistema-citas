@@ -1,11 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegistrarCitasComponent } from '../registrar-citas/registrar-citas.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -64,7 +56,7 @@ export class ListarCitasComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(RegistrarCitasComponent, {
       width: '500px',
-      height: '520px',
+      height: '450px',
       disableClose: true,
     });
 
@@ -122,5 +114,17 @@ export class ListarCitasComponent {
     });
   }
 
-  editCita(cita: Cita) {}
+  editCita(cita: Cita) {
+    const dialogRef = this.dialog.open(RegistrarCitasComponent, {
+      data: cita,
+      disableClose: true,
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadCitas();
+      }
+    });
+  }
 }

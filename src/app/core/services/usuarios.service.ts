@@ -16,4 +16,10 @@ export class UsuariosService {
       withCredentials: true,
     });
   }
+
+  buscarPorId(id: string): Observable<Usuario> {
+    return this.http.get<Usuario>(this.urlBase + `/${id}`, {
+      withCredentials: true,
+    });
+  }
 }

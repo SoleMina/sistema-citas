@@ -5,6 +5,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { ListarMedicosComponent } from './features/medicos/listar-medicos/listar-medicos.component';
 import { ListarEspecialidadesComponent } from './features/especialidades/listar-especialidades/listar-especialidades.component';
+import { DetailsComponent } from './features/usuarios/componentes/details/details.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,16 @@ export const routes: Routes = [
   {
     path: '',
     component: ListarCitasComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'usuarios',
+    component: ListarUsuariosComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'usuarios/:id_usua',
+    component: DetailsComponent,
     canActivate: [authGuard],
   },
   {
@@ -29,11 +40,6 @@ export const routes: Routes = [
   {
     path: 'especialidades',
     component: ListarEspecialidadesComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'usuarios',
-    component: ListarUsuariosComponent,
     canActivate: [authGuard],
   },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
