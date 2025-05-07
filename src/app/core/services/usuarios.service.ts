@@ -28,4 +28,10 @@ export class UsuariosService {
       withCredentials: true,
     });
   }
+
+  registrarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.urlBase}/registrar`, usuario, {
+      withCredentials: true,
+    });
+  }
 }

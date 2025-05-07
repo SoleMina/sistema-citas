@@ -9,11 +9,16 @@ import { DetailsComponent } from './features/usuarios/componentes/details/detail
 import { DetailsMedicosComponent } from './features/medicos/details-medicos/details-medicos.component';
 import { HomeComponent } from './features/home/home.component';
 import { adminGuard } from './core/guards/admin.guard';
+import { RegistrarUsuariosComponent } from './features/usuarios/componentes/registrar-usuarios/registrar-usuarios.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegistrarUsuariosComponent,
   },
   {
     path: '',

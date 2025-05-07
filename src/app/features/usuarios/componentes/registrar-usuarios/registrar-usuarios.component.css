@@ -1,0 +1,17 @@
+.register {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.form-register {
+  width: 40%;
+}
+
+@media (max-width: 768px) {
+  .form-register {
+    width: 80%;
+  }
+}
+.form-register .mat-mdc-form-field {
+  width: 80%;
+}
