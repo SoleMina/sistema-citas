@@ -22,4 +22,16 @@ export class CitasService {
       withCredentials: true,
     });
   }
+
+  registrarCita(cita: Cita): Observable<Cita> {
+    return this.http.post<Cita>(this.urlBase, cita, {
+      withCredentials: true,
+    });
+  }
+
+  public actualizarCita(id: number, cita: Cita): Observable<any> {
+    return this.http.put(this.urlBase + `/${id}`, cita, {
+      withCredentials: true,
+    });
+  }
 }

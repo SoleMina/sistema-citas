@@ -39,7 +39,7 @@
               [matDatepickerFilter]="myFilter"
               [matDatepicker]="picker"
             />
-            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-hint>DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle
               matIconSuffix
               [for]="picker"
@@ -57,14 +57,14 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field>
+          <!-- <mat-form-field>
             <mat-label>Estado</mat-label>
             <mat-select formControlName="estado_cita">
-              <mat-option value="pendiente">PENDIENTE</mat-option>
-              <mat-option value="confirmado">CONFIRMADO</mat-option>
-              <mat-option value="cancelado">CANCELADO</mat-option>
+              <mat-option value="PENDIENTE">PENDIENTE</mat-option>
+              <mat-option value="CONFIRMADO">CONFIRMADO</mat-option>
+              <mat-option value="CANCELADO">CANCELADO</mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
           <div class="col-12">
             <button mat-flat-button type="submit" class="mb-10">
               {{ data?.id_cita ? "Editar" : "Registrar" }}

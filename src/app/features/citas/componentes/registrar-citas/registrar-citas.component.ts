@@ -23,6 +23,7 @@ import {
 import { CitasService } from '../../../../core/services/citas.service';
 import { Cita } from '../../../../core/models/cita';
 import { CommonModule, formatDate } from '@angular/common';
+import { AuthService } from '../../../../core/services/auth.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -59,6 +60,7 @@ export const MY_DATE_FORMATS = {
 })
 export class RegistrarCitasComponent {
   citasForm: FormGroup;
+  currentUser: number | null = null;
   horasDisponibles: string[] = [];
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
@@ -67,19 +69,24 @@ export class RegistrarCitasComponent {
   constructor(
     private fb: FormBuilder,
     private citasService: CitasService,
+    private authService: AuthService,
     private dialogRef: MatDialogRef<RegistrarCitasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Cita
   ) {
+    this.currentUser = this.authService.currentUser?.id_usua || null;
+
     this.citasForm = this.fb.group({
       id_med: [null, [Validators.required]],
-      id_usua: [null, [Validators.required]],
       fecha_cita: [null, [Validators.required]],
       hora_cita: [null, [Validators.required]],
-      estado_cita: [null, [Validators.required]],
     });
     if (data) {
       this.citasForm.patchValue({
         id_med: data.id_med,
+        fecha_cita: data.fecha_cita,
+        hora_cita: data.hora_cita,
+        id_usua: data.id_usua,
+        estado_cita: data.estado_cita,
       });
     }
   }
@@ -113,14 +120,30 @@ export class RegistrarCitasComponent {
   }
 
   onSubmit() {
+    if (this.citasForm.invalid) {
+      console.log(this.citasForm.value, 'form');
+      console.log('invalid citas');
+      this.citasForm.markAllAsTouched();
+      return;
+    }
     const rawFecha = this.citasForm.value.fecha_cita;
     const fechaFormateada = formatDate(rawFecha, 'yyyy-MM-dd', 'en-US');
+
+    const rawHora = this.citasForm.value.hora_cita;
+    const horaConSegundos = rawHora.length === 5 ? `${rawHora}:00` : rawHora;
 
     const formData = {
       ...this.citasForm.value,
       fecha_cita: fechaFormateada,
+      hora_cita: horaConSegundos,
+      id_usua: this.currentUser,
+      estado_cita: 'PENDIENTE',
     };
 
     console.log(formData);
+
+    this.citasService.registrarCita(formData).subscribe(() => {
+      this.dialogRef.close(true);
+    });
   }
 }

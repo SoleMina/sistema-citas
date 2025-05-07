@@ -64,7 +64,7 @@ export class ListarCitasComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(RegistrarCitasComponent, {
       width: '500px',
-      height: '500px',
+      height: '520px',
       disableClose: true,
     });
 
