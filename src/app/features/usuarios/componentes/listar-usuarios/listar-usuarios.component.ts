@@ -86,4 +86,12 @@ export class ListarUsuariosComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  deleteUsuario(id: number) {
+    this.usuariosService.eliminarPorId(id).subscribe(() => {
+      this.usuariosService.listarUsuario().subscribe((data) => {
+        this.dataSource.data = data;
+      });
+    });
+  }
 }

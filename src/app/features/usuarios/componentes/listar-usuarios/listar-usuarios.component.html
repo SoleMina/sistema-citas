@@ -66,9 +66,9 @@
             <a (click)="edit.emit(row)">
               <mat-icon>edit</mat-icon>
             </a>
-            <a (click)="delete.emit(row.id_usua)">
+            <button mat-icon-button (click)="deleteUsuario(row.id_usua)">
               <mat-icon>delete</mat-icon>
-            </a>
+            </button>
           </td>
         </ng-container>
 

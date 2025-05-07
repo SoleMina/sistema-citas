@@ -22,4 +22,10 @@ export class UsuariosService {
       withCredentials: true,
     });
   }
+
+  eliminarPorId(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlBase}/${id}`, {
+      withCredentials: true,
+    });
+  }
 }
