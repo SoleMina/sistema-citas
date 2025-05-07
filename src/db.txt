@@ -1,0 +1,138 @@
+-- Insert into especialidades
+INSERT INTO tb_especialidades (nom_espe) VALUES
+('Cardiología'),
+('Pediatría'),
+('Dermatología'),
+('Neurología'),
+('Ginecología'),
+('Oftalmología'),
+('Psicología'),
+('Traumatología'),
+('Endocrinología'),
+('Otorrinolaringología');
+
+
+INSERT INTO tb_usuarios (
+    nom_usua,
+    fono_usua,
+    email_usua,
+    pass_usua,
+    fna_usua,
+    createdAt,
+    updatedAt,
+    rol_usua,
+    id_espe
+) VALUES 
+(
+    'Ana Pereira',
+    '987654321',
+    'anapereira@example.com',
+    '1234password',
+    '1990-05-10',
+    NOW(),
+    NOW(),
+    'MEDICO',
+    1
+);
+
+
+Registrar Usuarios:
+
+Medicos:
+
+{
+    "nom_usua": "Mariana Tello",
+    "fono_usua": "987656567",
+    "correo": "mariana@gmail.com",
+    "pass_usua": "mariana2025",
+    "fna_usua": "2000-05-05",
+    "rol_usua": "MEDICO",
+    "id_espe": 2
+}
+
+{
+    "nom_usua": “Sam Carrillo”,
+    "fono_usua": "987656567",
+    "correo": “sam@gmail.com",
+    "pass_usua": “sam2025”,
+    "fna_usua": "2000-05-05",
+    "rol_usua": "MEDICO",
+    "id_espe": 2
+}
+
+
+Administrador:
+
+{
+    "nom_usua": “Juan Perez”,
+    "fono_usua": "987656567",
+    "correo": “juanperez@gmail.com",
+    "pass_usua": “juan2025”,
+    "fna_usua": "2000-05-05",
+    "rol_usua": “ADMINISTRADOR”
+}
+
+{
+    "nom_usua": “Juan Perez”,
+    "fono_usua": "987656567",
+    "correo": “juanperez@gmail.com",
+    "pass_usua": “juan2025”,
+    "fna_usua": "2000-05-05",
+    "rol_usua": “ADMINISTRADOR”
+}
+
+
+Especialidad:
+
+{
+    "nom_espe": "Medicina Física"
+}
+
+{
+    "nom_espe": “Traumatología
+}
+
+{
+    "nom_espe": “Ginecología
+}
+
+{
+    "nom_espe": “Cirugía
+}
+
+
+Citas: 
+
+{
+        "id_usua": 1,
+        "id_med": 1,
+        "fecha_cita": "2025-05-08",
+        "hora_cita": "09:00:00",
+        "estado_cita": "PENDIENTE"
+ },
+
+{
+        "id_usua": 1,
+        "id_med": 2,
+        "fecha_cita": "2025-05-08",
+        "hora_cita": "09:00:00",
+        "estado_cita": "PENDIENTE"
+ }
+
+INSERT INTO tb_citas (
+    id_usua,
+    id_med,
+    fecha_cita,
+    hora_cita,
+    createdAt,
+    updatedAt,
+    estado_cita
+) VALUES (
+    1,
+    1,
+    '2025-05-08',
+    '10:00:00',
+    NOW(),
+    NOW(),
+    'PENDIENTE'
+);
