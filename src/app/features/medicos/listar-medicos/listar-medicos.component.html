@@ -32,6 +32,16 @@
           <td mat-cell *matCellDef="let row">{{ row.nom_usua }}</td>
         </ng-container>
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="especialidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Especialidad
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row?.especialidad?.nom_espe || "-" }}
+          </td>
+        </ng-container>
+
         <!-- Email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>

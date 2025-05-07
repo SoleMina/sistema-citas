@@ -37,6 +37,7 @@ export class ListarMedicosComponent {
   displayedColumns: string[] = [
     'id',
     'nombre',
+    'especialidad',
     'email',
     'telefono',
     'role',
