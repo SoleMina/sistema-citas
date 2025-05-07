@@ -12,6 +12,7 @@ import { EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
 import { RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -87,10 +88,27 @@ export class ListarUsuariosComponent {
   }
 
   deleteUsuario(id: number) {
-    this.usuariosService.eliminarPorId(id).subscribe(() => {
-      this.usuariosService.listarUsuario().subscribe((data) => {
-        this.dataSource.data = data;
-      });
+    Swal.fire({
+      title: '¿Estás seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'delete',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usuariosService.eliminarPorId(id).subscribe(() => {
+          this.usuariosService.listarUsuario().subscribe((data) => {
+            this.dataSource.data = data;
+          });
+        });
+        Swal.fire({
+          title: 'Usuario eliminado',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     });
   }
 }

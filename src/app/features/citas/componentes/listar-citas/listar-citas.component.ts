@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Cita } from '../../../../core/models/cita';
 import { CitasService } from '../../../../core/services/citas.service';
 import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-citas',
@@ -107,10 +108,27 @@ export class ListarCitasComponent {
     });
   }
   deleteCita(id: number) {
-    this.citasService.eliminarPorId(id).subscribe({
-      next: () => {
-        this.loadCitas();
-      },
+    Swal.fire({
+      title: '¿Estás seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'delete',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.citasService.eliminarPorId(id).subscribe({
+          next: () => {
+            this.loadCitas();
+          },
+        });
+        Swal.fire({
+          title: 'Cita eliminada',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     });
   }
 

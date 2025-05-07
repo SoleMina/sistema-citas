@@ -21,6 +21,7 @@ import { Especialidad } from '../../../core/models/especialidad';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { RegistrarEspecialidadComponent } from '../registrar-especialidad/registrar-especialidad.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-especialidades',
@@ -102,13 +103,27 @@ export class ListarEspecialidadesComponent {
     });
   }
   deleteEspecialidad(id: number) {
-    this.especialidadService.eliminarPorId(id).subscribe({
-      next: () => {
-        this.loadEspecialidades();
-      },
-      error: (err) => {
-        console.error('Error al eliminar especialidad:', err);
-      },
+    Swal.fire({
+      title: '¿Estás seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'delete',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.especialidadService.eliminarPorId(id).subscribe({
+          next: () => {
+            this.loadEspecialidades();
+          },
+        });
+        Swal.fire({
+          title: 'Especialidad eliminada',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     });
   }
 
