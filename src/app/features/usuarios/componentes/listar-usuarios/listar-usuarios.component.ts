@@ -1,5 +1,4 @@
-import { Component, Input, Output, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator } from '@angular/material/paginator';

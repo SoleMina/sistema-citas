@@ -60,15 +60,9 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
           <td mat-cell *matCellDef="let row">
-            <a [routerLink]="['', row.id_usua]">
+            <button mat-icon-button [routerLink]="['/medicos', row.id_usua]">
               <mat-icon>visibility</mat-icon>
-            </a>
-            <a (click)="edit.emit(row)">
-              <mat-icon>edit</mat-icon>
-            </a>
-            <a (click)="delete.emit(row.id_usua)">
-              <mat-icon>delete</mat-icon>
-            </a>
+            </button>
           </td>
         </ng-container>
 

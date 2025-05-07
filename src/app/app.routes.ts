@@ -6,6 +6,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { ListarMedicosComponent } from './features/medicos/listar-medicos/listar-medicos.component';
 import { ListarEspecialidadesComponent } from './features/especialidades/listar-especialidades/listar-especialidades.component';
 import { DetailsComponent } from './features/usuarios/componentes/details/details.component';
+import { DetailsMedicosComponent } from './features/medicos/details-medicos/details-medicos.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'medicos',
     component: ListarMedicosComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'medicos/:id_usua',
+    component: DetailsMedicosComponent,
     canActivate: [authGuard],
   },
   {

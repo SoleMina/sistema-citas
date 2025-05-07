@@ -2,6 +2,7 @@ import { Component, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,6 +23,7 @@ import { UsuariosService } from '../../../core/services/usuarios.service';
     MatInputModule,
     MatTableModule,
     MatIconModule,
+    MatButtonModule,
   ],
   templateUrl: './listar-medicos.component.html',
   styleUrl: './listar-medicos.component.css',
