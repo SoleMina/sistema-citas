@@ -66,4 +66,8 @@ export class AuthService {
   get currentUser(): Usuario | null {
     return this.authUserSubject.value;
   }
+
+  getUserRole(): Observable<any> {
+    return of(this.authUserSubject.value?.rol_usua);
+  }
 }

@@ -9,30 +9,22 @@
         </div>
 
         <div class="group-field text-center">
+          <!-- Select Especialidad -->
           <mat-form-field appearance="outline">
-            <mat-label>Id Medico</mat-label>
-            <input
-              formControlName="id_med"
-              matInput
-              aria-describedby="idmedHelp"
-              [ngClass]="{
-                'is-valid': idmedControl && idmedControlIsValid,
-                'is-invalid': idmedControlIsInvalid
-              }"
-            />
+            <mat-label>Seleccionar especialidad</mat-label>
+            <mat-select disableRipple formControlName="id_especialidad">
+              <mat-option
+                *ngFor="let especialidad of especialidadList"
+                [value]="especialidad.id_espe"
+              >
+                {{ especialidad.nom_espe }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-          <div
-            id="idmedHelp"
-            *ngIf="idmedControl?.touched && idmedControl?.invalid"
-            class="form-text text-danger mb-3"
-          >
-            @if (idmedControl?.hasError('required')) { Este campo es requerido }
-            @else if (idmedControl?.hasError('nom_espe')) { Este no es un correo
-            válido } @else { }
-          </div>
 
           <!-- Select medico -->
-          <!-- <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline">
+            <mat-label>Seleccionar médico</mat-label>
             <mat-select disableRipple formControlName="id_med">
               <mat-option
                 *ngFor="let medico of medicosList"
@@ -41,7 +33,7 @@
                 {{ medico.nom_usua }}
               </mat-option>
             </mat-select>
-          </mat-form-field> -->
+          </mat-form-field>
           <!-- Fecha de cita -->
           <mat-form-field class="example-full-width">
             <mat-label>Choose a date</mat-label>

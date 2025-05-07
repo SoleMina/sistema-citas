@@ -8,6 +8,7 @@ import { ListarEspecialidadesComponent } from './features/especialidades/listar-
 import { DetailsComponent } from './features/usuarios/componentes/details/details.component';
 import { DetailsMedicosComponent } from './features/medicos/details-medicos/details-medicos.component';
 import { HomeComponent } from './features/home/home.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -22,12 +23,12 @@ export const routes: Routes = [
   {
     path: 'usuarios',
     component: ListarUsuariosComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: 'usuarios/:id_usua',
     component: DetailsComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
   },
   {
     path: 'citas',

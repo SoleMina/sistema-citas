@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { Especialidad } from '../../../core/models/especialidad';
 import { EspecialidadesService } from '../../../core/services/especialidades.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registrar-especialidad',
@@ -74,10 +75,22 @@ export class RegistrarEspecialidadComponent {
       this.especialidadService
         .actualizarEspecialidad(this.data.id_espe, formData)
         .subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Especialidad actualizada',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.dialogRef.close(true);
         });
     } else {
       this.especialidadService.registrarEspecialidad(formData).subscribe(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Especialidad registrada',
+          showConfirmButton: false,
+          timer: 1500,
+        });
         this.dialogRef.close(true);
       });
     }

@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import Swal from 'sweetalert2';
 
 import {
   DateAdapter,
@@ -25,6 +26,8 @@ import { Cita } from '../../../../core/models/cita';
 import { CommonModule, formatDate } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UsuariosService } from '../../../../core/services/usuarios.service';
+import { Especialidad } from '../../../../core/models/especialidad';
+import { EspecialidadesService } from '../../../../core/services/especialidades.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -63,6 +66,7 @@ export class RegistrarCitasComponent {
   citasForm: FormGroup;
   currentUser: number | null = null;
   medicosList: any[] = [];
+  especialidadList: Especialidad[] = [];
 
   horasDisponibles: string[] = [];
   estadoOptions: string[] = ['PENDIENTE', 'CONFIRMADA', 'CANCELADA'];
@@ -76,22 +80,21 @@ export class RegistrarCitasComponent {
     private citasService: CitasService,
     private authService: AuthService,
     private usuariosService: UsuariosService,
+    private especialidadService: EspecialidadesService,
     private dialogRef: MatDialogRef<RegistrarCitasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Cita
   ) {
     this.currentUser = this.authService.currentUser?.id_usua || null;
 
     this.citasForm = this.fb.group({
+      id_especialidad: [null, Validators.required],
       id_med: [null, [Validators.required]],
       fecha_cita: [null, [Validators.required]],
       hora_cita: [null, [Validators.required]],
       estado_cita: ['PENDIENTE', [Validators.required]],
     });
     if (data && data.id_cita) {
-      console.log('DATA RECIBIDA:', data);
-
       const estadoNormalizado = data?.estado_cita?.toUpperCase() || 'PENDIENTE';
-
       this.citasForm.patchValue({
         id_med: data.id_med,
         fecha_cita: data.fecha_cita,
@@ -99,18 +102,16 @@ export class RegistrarCitasComponent {
         id_usua: data.id_usua,
         estado_cita: estadoNormalizado,
       });
-    } else {
-      this.citasForm.patchValue({
-        estado_cita: 'PENDIENTE',
-      });
+
+      this.citasForm.get('id_especialidad')?.disable();
+      this.citasForm.get('id_med')?.disable();
     }
 
-    this.usuariosService.listarUsuario().subscribe((data) => {
-      this.medicosList = data.filter(
-        (usuario) => usuario.rol_usua === 'MEDICO'
-      );
+    this.especialidadService.listarEspecialidades().subscribe((data) => {
+      this.especialidadList = data;
     });
-    console.log(this.medicosList, 'medicos list');
+
+    this.selectedEspecialidad();
   }
 
   ngOnInit() {
@@ -153,8 +154,10 @@ export class RegistrarCitasComponent {
     const rawHora = this.citasForm.value.hora_cita;
     const horaConSegundos = rawHora.length === 5 ? `${rawHora}:00` : rawHora;
 
+    const rawForm = this.citasForm.getRawValue();
+
     const formData = {
-      ...this.citasForm.value,
+      ...rawForm,
       fecha_cita: fechaFormateada,
       hora_cita: horaConSegundos,
       id_usua: this.currentUser,
@@ -166,12 +169,58 @@ export class RegistrarCitasComponent {
       this.citasService
         .actualizarCita(this.data.id_cita, formData)
         .subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Cita actualizada',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.dialogRef.close(true);
         });
     } else {
       this.citasService.registrarCita(formData).subscribe(() => {
         this.dialogRef.close(true);
+        Swal.fire({
+          icon: 'success',
+          title: 'Cita registrada',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
     }
+  }
+
+  selectedEspecialidad() {
+    this.citasForm.get('id_especialidad')?.valueChanges.subscribe((id_espe) => {
+      const especialidadSeleccionada = this.especialidadList.find(
+        (esp) => esp.id_espe === id_espe
+      );
+
+      if (especialidadSeleccionada) {
+        this.usuariosService.listarUsuario().subscribe((usuarios) => {
+          this.medicosList = usuarios
+            .filter(
+              (usuario) =>
+                usuario.rol_usua === 'MEDICO' &&
+                usuario.id_espe === especialidadSeleccionada.id_espe
+            )
+            .map((medico) => ({
+              ...medico,
+              id_med: Number(medico?.id_usua),
+            }));
+
+          const idMedActual = this.citasForm.get('id_med')?.value;
+          const existeMedico = this.medicosList.some(
+            (med) => med.id_med === idMedActual
+          );
+          if (!existeMedico) {
+            this.citasForm.get('id_med')?.setValue(null);
+          }
+        });
+      } else {
+        this.medicosList = [];
+        this.citasForm.get('id_med')?.setValue(null);
+      }
+    });
   }
 }

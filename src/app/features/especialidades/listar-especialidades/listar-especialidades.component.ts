@@ -102,6 +102,7 @@ export class ListarEspecialidadesComponent {
       }
     });
   }
+
   deleteEspecialidad(id: number) {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -109,19 +110,20 @@ export class ListarEspecialidadesComponent {
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'delete',
+      confirmButtonText: 'Sí, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.especialidadService.eliminarPorId(id).subscribe({
           next: () => {
-            this.loadEspecialidades();
+            Swal.fire({
+              title: 'Especialidad eliminada',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1000,
+            }).then(() => {
+              this.loadEspecialidades();
+            });
           },
-        });
-        Swal.fire({
-          title: 'Especialidad eliminada',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
         });
       }
     });
